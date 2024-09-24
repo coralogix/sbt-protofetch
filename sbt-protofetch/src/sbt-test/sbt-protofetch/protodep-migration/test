@@ -1,0 +1,3 @@
+> set insideCI := true
+> compile
+$ exists target/proto/opentelemetry/proto/logs/v1/logs.proto

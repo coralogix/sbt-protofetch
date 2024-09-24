@@ -1,0 +1,6 @@
+name = 'fetch'
+proto_out_dir = './target/proto'
+
+[opentelemetry]
+url = 'github.com/open-telemetry/opentelemetry-proto'
+revision = 'v1.0.0'

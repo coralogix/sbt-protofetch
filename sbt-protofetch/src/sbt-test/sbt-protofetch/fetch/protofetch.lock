@@ -1,0 +1,7 @@
+version = 2
+
+[[dependencies]]
+name = "opentelemetry"
+url = "github.com/open-telemetry/opentelemetry-proto"
+revision = "v1.0.0"
+commit_hash = "c4dfbc51f3cd4089778555a2ac5d9bc093ed2956"
