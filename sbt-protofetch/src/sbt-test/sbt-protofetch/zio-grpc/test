@@ -1,0 +1,2 @@
+> set insideCI := true
+> compile
