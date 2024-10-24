@@ -29,7 +29,7 @@ import java.util
 
 object ProtofetchBinary {
 
-  val DEFAULT_VERSION = "0.1.1"
+  val DEFAULT_VERSION = "0.1.8"
 
   def download(
       logger: Logger,

@@ -55,11 +55,12 @@ object ProtofetchPlugin extends AutoPlugin {
   )
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    protofetchModuleFile := baseDirectory.value / "protofetch.toml",
+    protofetchModuleFile            := baseDirectory.value / "protofetch.toml",
+    protofetchFetch / baseDirectory := protofetchModuleFile.value.getParentFile,
     protofetchLockFile := protofetchModuleFile.value.getParentFile / "protofetch.lock",
     protofetchOutputDirectory := {
-      val moduleFile = protofetchModuleFile.value
-      moduleFile.getParentFile / Protofetch.getOutputDirectory(moduleFile)
+      (protofetchFetch / baseDirectory).value /
+        Protofetch.getOutputDirectory(protofetchModuleFile.value)
     },
     protofetchFetch / insideCI := insideCI.value,
     protofetchFetch := {
@@ -69,6 +70,7 @@ object ProtofetchPlugin extends AutoPlugin {
       val s              = streams.value
       val binaryFileInfo = FileInfo.lastModified(protofetchBinary.value)
       val moduleFileInfo = FileInfo.hash(protofetchModuleFile.value)
+      val base           = (protofetchFetch / baseDirectory).value;
       val lockFile       = protofetchLockFile.value
       val locked         = (protofetchFetch / insideCI).value
 
@@ -76,7 +78,7 @@ object ProtofetchPlugin extends AutoPlugin {
         (changed, _: (Inputs, Outputs)) =>
           if (changed) {
             Protofetch.fetch(
-              baseDirectory.value,
+              base,
               s.log,
               binaryFileInfo.file,
               moduleFileInfo.file,
