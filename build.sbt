@@ -1,5 +1,6 @@
 val versions = new {
-  val sbt             = "1.6.0"
+  val scala212        = "2.12.20"
+  val sbt             = "1.5.8"
   val commonsCompress = "1.27.1"
   val toml4j          = "0.7.3"
   val munit           = "1.0.2"
@@ -14,15 +15,22 @@ val common: Seq[Setting[_]] = Seq(
   )),
   headerLicense := Some(HeaderLicense.ALv2("2024", "Coralogix Ltd.")),
   homepage      := Some(url("https://github.com/coralogix/sbt-protofetch")),
-  version       := "0.1.0-SNAPSHOT"
+  version       := "0.1.0-SNAPSHOT",
+  scalaVersion  := versions.scala212
 )
 
 lazy val `sbt-protofetch` = (project in file("sbt-protofetch"))
   .enablePlugins(SbtPlugin)
   .settings(common)
   .settings(
-    common,
-    pluginCrossBuild / sbtVersion := versions.sbt,
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          versions.sbt
+        case _ =>
+          "2.0.0-M2" // just a preparation for Scala 3 / sbt 2
+      }
+    },
     libraryDependencies ++= Seq(
       "org.apache.commons" % "commons-compress" % versions.commonsCompress,
       "io.hotmoka"         % "toml4j"           % versions.toml4j,
