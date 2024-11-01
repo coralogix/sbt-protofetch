@@ -41,6 +41,8 @@ jobs:
 
       - name: Build project
         run: sbt test scripted
+        env:
+          PROTOFETCH_GIT_PROTOCOL: https
 
       - name: Compress target directories
         run: tar cf targets.tar target sbt-protofetch/target project/target
