@@ -31,6 +31,12 @@ lazy val `sbt-protofetch` = (project in file("sbt-protofetch"))
           "2.0.0-M2" // just a preparation for Scala 3 / sbt 2
       }
     },
+    scriptedSbt := {
+      scalaBinaryVersion.value match {
+        case "2.12" => (ThisBuild / sbtVersion).value
+        case _      => "2.0.0-M2"
+      }
+    },
     libraryDependencies ++= Seq(
       "org.apache.commons" % "commons-compress" % versions.commonsCompress,
       "io.hotmoka"         % "toml4j"           % versions.toml4j,
