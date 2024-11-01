@@ -5,7 +5,7 @@ val versions = new {
   val munit           = "1.0.2"
 }
 
-val common = Seq(
+val common: Seq[Setting[_]] = Seq(
   organizationName := "Coralogix Ltd.",
   organization     := "com.coralogix",
   startYear        := Some(2024),
@@ -21,6 +21,7 @@ lazy val `sbt-protofetch` = (project in file("sbt-protofetch"))
   .enablePlugins(SbtPlugin)
   .settings(common)
   .settings(
+    common,
     pluginCrossBuild / sbtVersion := versions.sbt,
     libraryDependencies ++= Seq(
       "org.apache.commons" % "commons-compress" % versions.commonsCompress,
