@@ -23,6 +23,7 @@ lazy val `sbt-protofetch` = (project in file("sbt-protofetch"))
   .enablePlugins(SbtPlugin)
   .settings(common)
   .settings(
+    crossScalaVersions := Seq(versions.scala212),
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" =>
