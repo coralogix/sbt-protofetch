@@ -4,6 +4,7 @@
 # this file by hand! Instead, if you wish to make changes, you should
 # change your sbt build configuration to revise the workflow description
 # to meet your needs, then regenerate this file.
+# UPDATE: Plugin was removed since then, but we still keep the file.
 
 name: Clean
 
