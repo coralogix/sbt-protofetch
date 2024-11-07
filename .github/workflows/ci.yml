@@ -82,6 +82,11 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
+      - name: Test
+        run: echo -n $PGP_SECRET | wc -c
+        env:
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+
       - name: Publish project
         run: sbt ci-release
         env:
