@@ -1,5 +1,5 @@
 val versions = new {
-  val scala212        = "2.12.20"
+  val scala212        = "2.13.15"
   val sbt             = "1.5.8"
   val commonsCompress = "1.27.1"
   val toml4j          = "0.7.3"
