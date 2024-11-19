@@ -81,9 +81,6 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Install gpg v1.4
-        uses: olafurpg/setup-gpg@v3
-
       - name: Publish project
         run: sbt ci-release
         env:
