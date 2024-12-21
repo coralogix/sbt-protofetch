@@ -16,7 +16,21 @@ val common: Seq[Setting[_]] = Seq(
   headerLicense := Some(HeaderLicense.ALv2("2024", "Coralogix Ltd.")),
   homepage      := Some(url("https://github.com/coralogix/sbt-protofetch")),
   scalaVersion  := versions.scala212,
-  versionScheme := Some("early-semver")
+  versionScheme := Some("early-semver"),
+  developers := List(
+    Developer(
+      "rtimush",
+      "Roman Timushev",
+      "roman.timushev@coralogix.com",
+      url("https://www.coralogix.com")
+    ),
+    Developer(
+      "m-kalai",
+      "Marcel Kalai",
+      "marcel.kalai@coralogix.com",
+      url("https://www.coralogix.com")
+    )
+  )
 )
 
 lazy val `sbt-protofetch` = (project in file("sbt-protofetch"))
