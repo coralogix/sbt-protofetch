@@ -3,7 +3,7 @@ val versions = new {
   val sbt             = "1.5.8"
   val commonsCompress = "1.28.0"
   val toml4j          = "0.7.3"
-  val munit           = "1.1.2"
+  val munit           = "1.2.1"
 }
 
 val common: Seq[Setting[_]] = Seq(
