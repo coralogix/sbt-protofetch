@@ -19,13 +19,14 @@ package com.coralogix.sbtprotofetch
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 import sbt.util.Logger
-import sbt.{File, URL}
+import sbt.File
 
 import java.io.{BufferedInputStream, IOException, InputStream}
-import java.net.URI
+import java.net.{HttpURLConnection, URI, URL}
 import java.nio.file.attribute.{BasicFileAttributes, PosixFilePermission}
 import java.nio.file.{FileVisitResult, Files, Path, SimpleFileVisitor}
 import java.util
+import scala.util.Random
 
 object ProtofetchBinary {
 
@@ -66,9 +67,7 @@ object ProtofetchBinary {
       delete(targetPath)
     }
 
-    val stream = url.openStream()
-    try extract(logger, stream, targetPath)
-    finally stream.close()
+    downloadRetrying(url, extract(logger, _, targetPath))
 
     val binary = system.platform match {
       case Platform.Linux | Platform.Mac => "protofetch"
@@ -76,6 +75,36 @@ object ProtofetchBinary {
     }
 
     targetPath.resolve("bin").resolve(binary).toFile
+  }
+
+  // Downloading release assets from GitHub often fails with 503 or 504,
+  // so we want to try a few times before giving up.
+  // The retry behavior is rather arbitrary, we will make up to 5 attempts
+  // with a random delay up to 5s between attempts.
+  private def downloadRetrying[T](
+      url: URL,
+      block: InputStream => T,
+      retries: Int = 5
+  ): T = {
+    val connection = url.openConnection()
+    try {
+      val stream = connection.getInputStream
+      try block(stream)
+      finally stream.close()
+    } catch {
+      case e: IOException =>
+        connection match {
+          case httpConnection: HttpURLConnection =>
+            val code = httpConnection.getResponseCode
+            if (code >= 500 && code < 600 && retries > 0) {
+              Thread.sleep(Random.nextInt(5000))
+              downloadRetrying(url, block, retries - 1)
+            } else {
+              throw e
+            }
+          case _ => throw e
+        }
+    }
   }
 
   private def delete(path: Path): Unit = {
@@ -138,4 +167,5 @@ object ProtofetchBinary {
 
     result
   }
+
 }
