@@ -6,8 +6,10 @@ This plugin uses [protofetch](https://github.com/coralogix/protofetch) to downlo
 
 In `project/plugins.sbt`:
 ```scala
-addSbtPlugin("com.coralogix" % "sbt-protofetch" % "0.1.0")
+addSbtPlugin("com.coralogix" % "sbt-protofetch" % "<version>")
 ```
+
+The latest version is  [![Maven Central](https://maven-badges.sml.io/sonatype-central/com.coralogix/sbt-protofetch_2.12_1.0/badge.svg?subject=sbt-protofetch)](https://maven-badges.sml.io/sonatype-central/com.coralogix/sbt-protofetch_2.12_1.0/).
 
 In `build.sbt`:
 ```scala
@@ -19,7 +21,7 @@ lazy val root = (project in file("."))
 
 With the plugin enabled, you can use the `protofetchFetch` task
 to fetch protobuf definitions defined in the `protofetch.toml` descriptor,
-and the `protofetchOutputDirectory` to find out the location of the downloaded `.proto` files. 
+and the `protofetchOutputDirectory` to find out the location of the downloaded `.proto` files.
 
 In practice, you most likely want these protobuf definitions to be used
 by the rest of the build process. For `sbt-protoc` the configuration snippet
@@ -102,4 +104,4 @@ This gives you full control over dependencies and other aspects of code generati
 Note that this snippet is a drop-in replacement of what `sbt-protodep` does.
 You don't necessarily need to have a dedicated `grpcDeps` sbt project,
 these settings can as well be applied to some already existing project.
-Also, you may not need all `libraryDependencies` that `sbt-protodep` used to add. 
+Also, you may not need all `libraryDependencies` that `sbt-protodep` used to add.
