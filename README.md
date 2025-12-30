@@ -30,8 +30,11 @@ will look like this:
 lazy val root = (project in file("."))
   .enablePlugins(ProtofetchPlugin)
   .settings(
-    // Use protofetch output as a sbt-protoc source
+    // Use protofetch output as a sbt-protoc source.
+    // Remove this line if you use "target/protobuf_external_src" as proto_out_dir in your protofetch.toml
     Compile / PB.protoSources += protofetchOutputDirectory.value,
+
+    // Fetch proto files before running code generators
     Compile / PB.generate := (Compile / PB.generate).dependsOn(protofetchFetch).value,
 
     // The rest of the sbt-protoc configuration
@@ -83,7 +86,6 @@ lazy val grpcDeps = (project in file("grpc-deps"))
   .enablePlugins(ProtofetchPlugin)
   .settings(
     protofetchModuleFile := baseDirectory.value / ".." / "protofetch.toml",
-    Compile / PB.protoSources += protofetchOutputDirectory.value,
     Compile / PB.targets := Seq(
       scalapb.gen(grpc = true) -> (Compile / sourceManaged).value / "scalapb",
       scalapb.zio_grpc.ZioCodeGenerator -> (Compile / sourceManaged).value / "scalapb"
@@ -105,3 +107,4 @@ Note that this snippet is a drop-in replacement of what `sbt-protodep` does.
 You don't necessarily need to have a dedicated `grpcDeps` sbt project,
 these settings can as well be applied to some already existing project.
 Also, you may not need all `libraryDependencies` that `sbt-protodep` used to add.
+****
