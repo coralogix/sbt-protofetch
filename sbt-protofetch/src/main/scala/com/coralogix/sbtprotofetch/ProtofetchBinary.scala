@@ -30,7 +30,7 @@ import scala.util.Random
 
 object ProtofetchBinary {
 
-  val DEFAULT_VERSION = "0.1.15"
+  val DEFAULT_VERSION = "0.1.21"
 
   def download(
       logger: Logger,
